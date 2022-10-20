@@ -1,10 +1,12 @@
 package com.codegym.repository.comment;
 
 import com.codegym.model.Comment;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import javax.persistence.*;
+//import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -15,14 +17,14 @@ public class CommentRepository implements ICommentRepository {
 
     @Override
     public List<Comment> findAll() {
-        String queryStr = "SELECT c FROM Student AS c WHERE (c.date=CURRENT_DATE)";
+        String queryStr = "SELECT c FROM com.codegym.model.Comment AS c";
         TypedQuery<Comment> query = em.createQuery(queryStr, Comment.class);
         return query.getResultList();
     }
 
     @Override
     public Comment findById(Long id) {
-        String queryStr = "SELECT c FROM Comment AS c WHERE c.id=:id";
+        String queryStr = "SELECT c FROM com.codegym.model.Comment AS c WHERE c.id=:id";
         TypedQuery<Comment> query = em.createQuery(queryStr, Comment.class);
         query.setParameter("id", id);
         try {
